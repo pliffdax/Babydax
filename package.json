@@ -1,0 +1,23 @@
+{
+  "name": "babydax",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/bot.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "rimraf dist && npx tsc && node .",
+    "dev": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "Pliffdax",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.0.1"
+  }
+}
