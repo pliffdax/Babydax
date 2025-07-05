@@ -3,21 +3,36 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/bot.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "rimraf dist && npx tsc && node .",
-    "dev": "tsc --watch"
+    "dev": "nodemon",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Pliffdax",
   "license": "ISC",
   "packageManager": "pnpm@10.12.1",
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.30.1",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "eslint": "^9.30.1",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1"
   },
   "dependencies": {
+    "chalk": "^5.4.1",
     "discord.js": "^14.21.0",
-    "dotenv": "^17.0.1"
+    "dotenv": "16.4.5"
   }
 }
