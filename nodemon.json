@@ -1,6 +1,0 @@
-{
-  "watch": ["src", ".env"],
-  "ext": "ts",
-  "ignore": ["dist"],
-  "exec": "node --no-warnings --loader ts-node/esm ./src/bot.ts"
-}
