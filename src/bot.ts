@@ -1,19 +1,25 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import { configDotenv } from 'dotenv';
 import { logger } from '@/utils/logger';
+import { registerCommands } from '@/registry/registerCommands';
+import { loadEvents } from '@/loaders/eventLoader';
+import { TOKEN } from '@/config';
 
-configDotenv();
+async function main() {
+  await registerCommands();
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+    ],
+  });
+
+  await loadEvents(client);
+  await client.login(TOKEN);
+}
+
+main().catch(e => {
+  logger.error(e instanceof Error ? e.message : String(e));
+  process.exit(1);
 });
-
-client.once('ready', () => {
-  logger.success(`Logged in as ${client.user?.tag}`);
-});
-
-client.login(process.env.TOKEN)

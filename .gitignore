@@ -9,6 +9,7 @@ pnpm-lock.yaml
 yarn.lock
 
 .DS_Store
+.commands-snapshot.json
 
 .env
 .env.*
