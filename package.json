@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/bot.js",
   "type": "module",
+  "prisma": {
+    "schema": "./prisma"
+  },
   "scripts": {
     "build": "rimraf dist && tsc && tsc-alias -p tsconfig.json --resolve-full-paths true",
     "start": "node dist/bot.js",
@@ -25,6 +28,7 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
+    "prisma": "^6.11.1",
     "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3",
@@ -32,6 +36,7 @@
     "typescript-eslint": "^8.35.1"
   },
   "dependencies": {
+    "@prisma/client": "^6.11.1",
     "chalk": "^5.4.1",
     "discord.js": "^14.21.0",
     "dotenv": "16.4.5"

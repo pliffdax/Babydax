@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 import { logger } from '@/utils/logger';
 import { Command } from '@/types';
 import { TOKEN, CLIENT_ID, TEST_GUILD_ID } from '@/config';
+import { COMMAND_GLOB as GLOB } from '@/config';
 
 const SNAP = '.commands-snapshot.json';
 
@@ -16,7 +17,7 @@ export async function registerCommands() {
   }
   const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-  const files = await fg('src/commands/**/*.{ts,js}', { absolute: true });
+  const files = await fg(GLOB, { absolute: true });
   const all: Command[] = [];
 
   for (const f of files) {

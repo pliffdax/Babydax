@@ -1,9 +1,10 @@
 import fg from 'fast-glob';
 import path from 'node:path';
 import { Command } from '@/types';
+import { COMMAND_GLOB as GLOB } from '@/config';
 
 export async function loadCommands() {
-  const files = await fg('src/commands/**/*.{ts,js}', { absolute: true });
+  const files = await fg(GLOB, { absolute: true });
   const map = new Map<string, Command>();
 
   for (const f of files) {

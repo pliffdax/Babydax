@@ -1,7 +1,8 @@
 import { Interaction } from 'discord.js';
 import { loadComponents } from '@/loaders/componentLoader';
-import { DEVELOPERS } from '@/config';
 import { Event, Component } from '@/types';
+import { isDev } from '@/utils/isDev';
+import { messages } from '@/constants';
 
 const { exactMap, regexArr } = await loadComponents();
 
@@ -21,8 +22,8 @@ export default {
     const comp = findComponent(i.customId);
     if (!comp) return;
 
-    if (comp.devOnly && !DEVELOPERS.includes(i.user.id)) {
-      return i.reply({ content: 'Dev only 👷', ephemeral: true });
+    if (comp.devOnly && !isDev(i.user.id)) {
+      return i.reply({ content: messages.DevOnly, ephemeral: true });
     }
     await comp.run(i as never);
   },

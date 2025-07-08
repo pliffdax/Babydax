@@ -1,9 +1,10 @@
 import fg from 'fast-glob';
 import path from 'node:path';
 import { Component } from '@/types';
+import { COMPONENT_GLOB as GLOB } from '@/config';
 
 export async function loadComponents() {
-  const files = await fg('src/components/**/*.{ts,js}', { absolute: true });
+  const files = await fg(GLOB, { absolute: true });
 
   const exactMap = new Map<string, Component>();
   const regexArr: Component[] = [];
