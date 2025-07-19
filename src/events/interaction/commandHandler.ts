@@ -1,4 +1,4 @@
-import { Interaction } from 'discord.js';
+import { Events, Interaction } from 'discord.js';
 import { loadCommands } from '@/loaders/commandLoader';
 import { logger } from '@/utils/logger';
 import { Event } from '@/types';
@@ -8,7 +8,7 @@ import { messages } from '@/constants';
 const commands = await loadCommands();
 
 export default {
-  name: 'interactionCreate',
+  name: Events.InteractionCreate,
   async run(i: Interaction) {
     if (!i.isChatInputCommand() && !i.isContextMenuCommand()) return;
 
@@ -25,4 +25,4 @@ export default {
       logger.error(`Command ${i.commandName} failed: ${(err as Error).message}`);
     }
   },
-} as Event<'interactionCreate'>;
+} as Event<Events.InteractionCreate>;

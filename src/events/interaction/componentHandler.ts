@@ -1,4 +1,4 @@
-import { Interaction } from 'discord.js';
+import { Events, Interaction } from 'discord.js';
 import { loadComponents } from '@/loaders/componentLoader';
 import { Event, Component } from '@/types';
 import { isDev } from '@/utils/isDev';
@@ -15,7 +15,7 @@ function findComponent(customId: string): Component | null {
 }
 
 export default {
-  name: 'interactionCreate',
+  name: Events.InteractionCreate,
   async run(i: Interaction) {
     if (!i.isButton() && !i.isAnySelectMenu() && !i.isModalSubmit()) return;
 
@@ -27,4 +27,4 @@ export default {
     }
     await comp.run(i as never);
   },
-} as Event<'interactionCreate'>;
+} as Event<Events.InteractionCreate>;

@@ -6,6 +6,7 @@ import {
 } from 'discord.js';
 import { Command } from '@/types';
 import { componentsPromise } from '@/components';
+import { embeds } from '@/constants/embeds';
 
 export default {
   data: new SlashCommandBuilder().setName('ping').setDescription('Replies with Pong!'),
@@ -16,7 +17,7 @@ export default {
     const helloBtnProto = exactMap.get('hello')!.data as ButtonBuilder;
 
     await i.reply({
-      content: '🏓 Pong! Press buttons ↓',
+      embeds: [embeds.success(i.user, '🏓 Pong! Press buttons ↓')],
       components: [new ActionRowBuilder<ButtonBuilder>().addComponents(helloBtnProto)],
     });
 
