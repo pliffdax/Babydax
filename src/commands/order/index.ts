@@ -1,5 +1,5 @@
 import { orderMain } from '@/commands/order/subcommands';
-import { orderMainInfoHandler, orderMainRemoveHandler, orderMainSetHandler } from '@/commands/order/subcommands/handlers';
+import { orderMainInfoHandler, orderMainRemoveHandler, orderMainSetHandler } from '@/commands/order/handlers';
 import {
   CategoryChannel,
   ChatInputCommandInteraction,
