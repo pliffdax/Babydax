@@ -1,8 +1,9 @@
-import { Events, Interaction } from 'discord.js';
+import { Events, Interaction, MessageFlags } from 'discord.js';
 import { loadComponents } from '@/loaders/componentLoader';
 import { Event, Component } from '@/types';
 import { isDev } from '@/utils/isDev';
 import { messages } from '@/constants';
+import { logger } from '@/utils/logger';
 
 const { exactMap, regexArr } = await loadComponents();
 
@@ -23,8 +24,13 @@ export default {
     if (!comp) return;
 
     if (comp.devOnly && !isDev(i.user.id)) {
-      return i.reply({ content: messages.DevOnly, ephemeral: true });
+      return i.reply({ content: messages.DevOnly, flags: MessageFlags.Ephemeral });
     }
-    await comp.run(i as never);
+
+    try {
+      await comp.run(i as never);
+    } catch (err) {
+      logger.error(`Component ${i.customId} failed: ${(err as Error).message}`);
+    }
   },
 } as Event<Events.InteractionCreate>;

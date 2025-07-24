@@ -10,11 +10,11 @@ import { embeds } from '@/constants/embeds';
 
 export default {
   data: new SlashCommandBuilder().setName('ping').setDescription('Replies with Pong!'),
-
+  devOnly: true,
   async run(i: ChatInputCommandInteraction) {
     const { exactMap } = await componentsPromise;
 
-    const helloBtnProto = exactMap.get('hello')!.data as ButtonBuilder;
+    const helloBtnProto = exactMap.get('createOrderChannel')!.data as ButtonBuilder;
 
     await i.reply({
       embeds: [embeds.success(i.user, '🏓 Pong! Press buttons ↓')],
