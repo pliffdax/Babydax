@@ -7,9 +7,8 @@ import {
   ButtonBuilder,
 } from 'discord.js';
 import { Component } from '@/types';
-import { colorsDecimal, embeds } from '@/constants';
-import { parseCustomId, isExpired } from './builders';
-import { makeDefaultEmbed } from '@/utils/makeEmbed';
+import { embeds } from '@/constants';
+import { parseCustomId, isExpired, createCabinetMsg } from './builders';
 import { componentsPromise } from '@/components';
 
 export const TIMEOUT = 60_000;
@@ -40,42 +39,38 @@ export default {
         flags: MessageFlags.Ephemeral,
       });
 
+    const embed = createCabinetMsg(i, pib, nzk);
+
+    const { exactMap } = await componentsPromise;
+
+    const components = [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        exactMap.get('createOrder')!.data as ButtonBuilder,
+        exactMap.get('changeCredentials')!.data as ButtonBuilder,
+        exactMap.get('infoPrice')!.data as ButtonBuilder,
+      ),
+    ];
+
     if (mode === 'create') {
       const channel = await i.guild!.channels.create({
         name: `${i.user.username}-${nzk}`,
         type: ChannelType.GuildText,
-        parent: '1397898938836586526', // TODO: fetch from DB
+        parent: '1397898938836586526',
         permissionOverwrites: [
           { id: i.guild!.id, deny: [PermissionFlagsBits.ViewChannel] },
           { id: i.user.id, allow: [PermissionFlagsBits.ViewChannel] },
           {
-            id: '1342408785741746206', // TODO: role from DB
+            id: '1342408785741746206',
             allow: [PermissionFlagsBits.ViewChannel],
           },
         ],
       });
 
-      const { exactMap } = await componentsPromise;
-
       const msg = await channel.send({
-        embeds: [
-          makeDefaultEmbed(colorsDecimal.Info, {
-            title: `👤 Персональний кабінет ${i.user.username}`,
-            description:
-              'Вітаємо! Ваш кабінет успішно створено. Ви можете використовувати цей канал для створення замовлень.',
-            fields: [
-              { name: '📍 ПІБ', value: pib, inline: true },
-              { name: '📍 НЗК', value: nzk, inline: true },
-            ],
-          }),
-        ],
-        components: [
-          new ActionRowBuilder<ButtonBuilder>().addComponents(
-            exactMap.get('createOrder')!.data as ButtonBuilder,
-            exactMap.get('changeCredentials')!.data as ButtonBuilder,
-          ),
-        ],
+        embeds: [embed],
+        components,
       });
+
       await msg.pin();
 
       return i.reply({
@@ -96,17 +91,8 @@ export default {
     const cabinetMsg = await channel.messages.fetch(i.message!.id);
     if (cabinetMsg)
       await cabinetMsg.edit({
-        embeds: [
-          makeDefaultEmbed(colorsDecimal.Info, {
-            title: `👤 Персональний кабінет ${i.user.username}`,
-            description:
-              'Вітаємо! Ваш кабінет успішно створено. Ви можете використовувати цей канал для створення замовлень.',
-            fields: [
-              { name: '📍 ПІБ', value: `> ${pib}`, inline: true },
-              { name: '📍 НЗК', value: `> ${nzk}`, inline: true },
-            ],
-          }),
-        ],
+        embeds: [embed],
+        components,
       });
 
     await i.reply({

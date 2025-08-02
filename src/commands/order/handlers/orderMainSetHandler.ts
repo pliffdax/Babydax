@@ -31,21 +31,8 @@ export const orderMainSetHandler = async (
     const embed = makeDefaultEmbed(colorsDecimal.Info, {
       title: '📦 Система замовлень',
       description:
-        'Вітаємо у системі замовлень! Будь ласка, заповніть форму нижче, щоб створити свій кабінет.',
-      fields: [
-        {
-          name: 'Інструкції',
-          value:
-            '1. Натисніть кнопку "Створити кабінет".\n2. Заповніть форму з вашими даними.\n3. Після успішного створення кабінету, ви отримаєте підтвердження.',
-          inline: false,
-        },
-        {
-          name: 'Підтримка',
-          value:
-            'Якщо у вас виникли питання або проблеми, будь ласка, зверніться до адміністрації сервера.',
-          inline: false,
-        },
-      ],
+        'Щоб розпочати роботу, натисніть **«👤 Створити кабінет»** під цим повідомленням. ' +
+        'Після короткої анкети бот відкриє для вас особистий канал, де можна буде оформлювати замовлення.',
     });
 
     const { exactMap } = await componentsPromise;
@@ -54,7 +41,7 @@ export const orderMainSetHandler = async (
       embeds: [embed],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
-          exactMap.get('createOrderChannel')!.data as ButtonBuilder,
+          exactMap.get('createCabinet')!.data as ButtonBuilder,
           exactMap.get('infoOrder')!.data as ButtonBuilder,
           exactMap.get('infoPrice')!.data as ButtonBuilder,
         ),
@@ -62,9 +49,9 @@ export const orderMainSetHandler = async (
     });
   }
 
-  const finalMessage = `Категорія замовлень: ${category ? category.name : 'Не вказано'}
-  Канал замовлень: ${channel ? channel.name : 'Не вказано'}
-  Повідомлення: ${message ? 'Так' : 'Ні'}`;
+  const finalMessage = `- Категорія замовлень: ${category ? category.name : 'Не вказано'}
+  - Канал замовлень: ${channel ? channel.name : 'Не вказано'}
+  - Повідомлення: ${message ? 'Так' : 'Ні'}`;
 
   await i.editReply({
     embeds: [embeds.success(user, `⚙️ Налаштування системи замовлень оновлено:\n${finalMessage}`)],

@@ -1,6 +1,9 @@
+import { colorsDecimal } from '@/constants';
+import { makeDefaultEmbed } from '@/utils/makeEmbed';
 import {
   ActionRowBuilder,
   ModalBuilder,
+  ModalSubmitInteraction,
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
@@ -24,8 +27,7 @@ export const parseCustomId = (customId: string) => {
   };
 };
 
-export const isExpired = (ts: number, window: number) =>
-  Date.now() - ts > window;
+export const isExpired = (ts: number, window: number) => Date.now() - ts > window;
 
 export const buildCabinetModal = (
   mode: CabinetMode,
@@ -54,14 +56,37 @@ export const buildCabinetModal = (
 
   return new ModalBuilder()
     .setCustomId(customId)
-    .setTitle(
-      mode === 'create'
-        ? 'Дані персонального кабінету'
-        : 'Оновити дані кабінету',
-    )
+    .setTitle(mode === 'create' ? 'Дані персонального кабінету' : 'Оновити дані кабінету')
     .addComponents(
       new ActionRowBuilder<TextInputBuilder>().addComponents(fullNameInput),
       new ActionRowBuilder<TextInputBuilder>().addComponents(recordBookInput),
     );
 };
 
+export const createCabinetMsg = (i: ModalSubmitInteraction, pib: string, nzk: string) =>
+  makeDefaultEmbed(colorsDecimal.Info, {
+    title: `👤 Кабінет ${i.user.username}`,
+    description:
+      'Ласкаво просимо до особистого кабінету! Тут ви можете створювати нові замовлення, ' +
+      'стежити за їхнім статусом і оновлювати свої контактні дані.',
+    fields: [
+      {
+        name: '📍 ПІБ',
+        value: '> ' + pib,
+        inline: true,
+      },
+      {
+        name: '📍 НЗК',
+        value: '> ' + nzk,
+        inline: true,
+      },
+      {
+        name: 'Що далі?',
+        value:
+          '1. Натисніть **«📥 Створити замовлення»**, щоб відкрити форму.\n' +
+          '2. У разі персональних даних — оберіть **«✏️ Редагувати дані»**.\n' +
+          '3. Після створення замовлення бот відкриє приватний Thread-канал для подальшого обговорення та трекінгу статусу.',
+        inline: false,
+      },
+    ],
+  });

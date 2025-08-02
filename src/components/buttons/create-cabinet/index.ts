@@ -11,9 +11,9 @@ import { TIMEOUT } from '@/components/modals/cabinet-modal';
 import { embeds } from '@/constants';
 
 export default {
-  id: 'createOrderChannel',
+  id: 'createCabinet',
   data: new ButtonBuilder()
-    .setCustomId('createOrderChannel')
+    .setCustomId('createCabinet')
     .setLabel('Створити кабінет')
     .setEmoji('👤')
     .setStyle(ButtonStyle.Primary),
