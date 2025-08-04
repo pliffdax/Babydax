@@ -4,6 +4,7 @@ import { logger } from '@/utils/logger';
 import { Event } from '@/types';
 import { isDev } from '@/utils/isDev';
 import { embeds } from '@/constants';
+import { safeReply } from '@/utils/safeReply';
 
 const commands = await loadCommands();
 
@@ -22,7 +23,9 @@ export default {
     try {
       await cmd.run(i);
     } catch (err) {
-      logger.error(`Command ${i.commandName} failed: ${(err as Error).message}`);
+      const message = (err as Error).message ?? 'Unknown Error';
+      logger.error(`Command ${i.commandName} failed: ${message}`);
+      await safeReply(i, embeds.error(i.user, `⚠️ ${message}`));
     }
   },
 } as Event<Events.InteractionCreate>;

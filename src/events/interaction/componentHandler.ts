@@ -2,8 +2,9 @@ import { Events, Interaction, MessageFlags } from 'discord.js';
 import { loadComponents } from '@/loaders/componentLoader';
 import { Event, Component } from '@/types';
 import { isDev } from '@/utils/isDev';
-import { messages } from '@/constants';
+import { embeds } from '@/constants';
 import { logger } from '@/utils/logger';
+import { safeReply } from '@/utils/safeReply';
 
 const { exactMap, regexArr } = await loadComponents();
 
@@ -24,13 +25,15 @@ export default {
     if (!comp) return;
 
     if (comp.devOnly && !isDev(i.user.id)) {
-      return i.reply({ content: messages.DevOnly, flags: MessageFlags.Ephemeral });
+      return i.reply({ embeds: [embeds.devOnly(i.user)], flags: MessageFlags.Ephemeral });
     }
 
     try {
       await comp.run(i as never);
     } catch (err) {
-      logger.error(`Component ${i.customId} failed: ${(err as Error).message}`);
+      const message = (err as Error).message ?? 'Unknown Error';
+      logger.error(`Component ${i.customId} failed: ${message}`);
+      await safeReply(i, embeds.error(i.user, `⚠️ ${message}`));
     }
   },
 } as Event<Events.InteractionCreate>;
