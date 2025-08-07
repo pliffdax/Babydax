@@ -9,7 +9,7 @@ export async function loadEvents(client: Client) {
 
   for (const file of files) {
     const mod = (await import(path.toNamespacedPath(file))).default as Event;
-    if (!mod?.name || !mod?.run) continue;
+    if (!mod?.name || !mod?.run || mod.inactive) continue;
 
     const handler = (...args: any[]): void => {
       void mod.run(...args as Parameters<typeof mod.run>);

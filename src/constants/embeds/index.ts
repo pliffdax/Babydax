@@ -9,16 +9,9 @@ export const embeds = {
   error: makeUserDynamicEmbed(colorsDecimal.Error),
   info: makeUserDynamicEmbed(colorsDecimal.Info),
   joined: (member: GuildMember) =>
-    makeUserGuildEmbed(
-      member,
-      colorsDecimal.Success,
-      '🍻 Учасник приєднався до серверу!',
-    ),
+    makeUserGuildEmbed(member, colorsDecimal.Success, '🍻 Учасник приєднався до серверу!'),
   left: (member: GuildMember) =>
-    makeUserGuildEmbed(
-      member,
-      colorsDecimal.Error,
-      '🌧️ Учасник вирішив залишити сервер...',
-    ),
-    devOnly: makeUserStaticEmbed(colorsDecimal.Warning, messages.DevOnly),
+    makeUserGuildEmbed(member, colorsDecimal.Error, '🌧️ Учасник вирішив залишити сервер...'),
+  devOnly: makeUserStaticEmbed(colorsDecimal.Warning, messages.DevOnly),
+  test: makeUserStaticEmbed(colorsDecimal.Warning, messages.Test),
 } as const;

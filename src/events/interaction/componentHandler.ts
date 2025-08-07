@@ -5,6 +5,7 @@ import { isDev } from '@/utils/isDev';
 import { embeds } from '@/constants';
 import { logger } from '@/utils/logger';
 import { safeReply } from '@/utils/safeReply';
+import { isTestGuild } from '@/utils/isTestGuild';
 
 const { exactMap, regexArr } = await loadComponents();
 
@@ -23,6 +24,10 @@ export default {
 
     const comp = findComponent(i.customId);
     if (!comp) return;
+
+    if (comp.test && !isTestGuild(i.guildId)) {
+      return i.reply({ embeds: [embeds.test(i.user)], flags: MessageFlags.Ephemeral });
+    }
 
     if (comp.devOnly && !isDev(i.user.id)) {
       return i.reply({ embeds: [embeds.devOnly(i.user)], flags: MessageFlags.Ephemeral });
